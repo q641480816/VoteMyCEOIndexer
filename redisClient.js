@@ -18,6 +18,8 @@ const hsetCount = promisify(redisClient.hlen).bind(redisClient);
 const hsetMassGet = promisify(redisClient.hmget).bind(redisClient);
 const hsetMassSet = promisify(redisClient.hmset).bind(redisClient);
 const flush = promisify(redisClient.flushdb).bind(redisClient);
+const hgetAll = promisify(redisClient.hgetall).bind(redisClient);
+
 
 const lockTable = async (table, timeout = 10000) => {
     return new Promise(async (resolve, reject) => {
@@ -47,4 +49,4 @@ const releaseTable = async (table) => {
 }
 
 
-module.exports = { flush, redisClient, getAsync, setAsync, setAdd, sismember, hsetAdd, hsetGetKeys, hsetDelete, setRemove, deleteAsWhole, hsetGet, hsetCount, hsetMassGet, lockTable, releaseTable, hsetMassSet };
+module.exports = { flush, hgetAll, redisClient, getAsync, setAsync, setAdd, sismember, hsetAdd, hsetGetKeys, hsetDelete, setRemove, deleteAsWhole, hsetGet, hsetCount, hsetMassGet, lockTable, releaseTable, hsetMassSet };
