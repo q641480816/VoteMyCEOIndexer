@@ -9,7 +9,7 @@ const properties = require('./properties.json');
 const numCPUs = 2;
 const { startListening, faucet, syncCamping } = require('./contractService');
 const corsOptions = {
-    origin: [`http://localhost:7636`, properties.serverUrl],
+    origin: [`http://localhost:8722`, properties.serverUrl],
     optionsSuccessStatus: 200
 }
 
@@ -30,10 +30,12 @@ if (cluster.isPrimary) {
 
 } else {
     const app = express();
+    const apiRouter = express.Router();
+    app.use('/indexer', apiRouter);
     app.use(cors(corsOptions));
     const jsonParser = bodyParser.json();
 
-    app.get('/getFaucetHistory', async (req, res) => {
+    apiRouter.get('/getFaucetHistory', async (req, res) => {
         const faucetHistoryList = await hgetAll(properties.tables.faucetHistory);
         if(faucetHistoryList.list){
             res.send(JSON.parse(faucetHistoryList.list));
@@ -42,7 +44,7 @@ if (cluster.isPrimary) {
         }
     });
 
-    app.get('/getCampaign', async (req, res) => {
+    apiRouter.get('/getCampaign', async (req, res) => {
         const campaign = await hgetAll(properties.tables.campaignMap);
         
         res.send(Object.values(campaign).map(c => {
@@ -54,7 +56,7 @@ if (cluster.isPrimary) {
         }).filter(c => c.campaignId !== undefined && c.campaignId !== null));
     })
 
-    app.post('/faucet', jsonParser, async (req, res) => {
+    apiRouter.post('/faucet', jsonParser, async (req, res) => {
         try {
             await faucet(req.body.address);
             res.status(200).send(`fauceted`)
@@ -66,7 +68,7 @@ if (cluster.isPrimary) {
         }
     })
 
-    app.get('/syncCampaign', async (req, res) => {
+    apiRouter.get('/syncCampaign', async (req, res) => {
         try{
             await syncCamping();
             res.send('ok');
