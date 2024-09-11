@@ -126,7 +126,9 @@ const syncCamping = async () => {
                 isActive: c.args[5]
             });
         })
-        await hsetAdd(properties.tables.campaignMap, listToRedis);
+        if(Object.keys(listToRedis).length > 0){
+            await hsetAdd(properties.tables.campaignMap, listToRedis);
+        }
         await hsetAdd(properties.tables.campaignMap, 'lastCheckedBlock', block);
     } catch (err) {
         console.log(err);
