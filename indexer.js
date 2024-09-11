@@ -75,7 +75,7 @@ if (cluster.isPrimary) {
         }
     })
 
-    app.listen(properties.port, '127.0.0.1', () => {
+    app.listen(properties.port, () => {
         console.log(`Indexer started at: ${properties.port}`)
     });
 }
