@@ -6,9 +6,9 @@ const cors = require('cors')
 const { flush, hsetAdd, hsetGet, hgetAll } = require('./redisClient');
 const properties = require('./properties.json');
 const numCPUs = Math.ceil(os.cpus().length / 2);
-const { startListening, faucet } = require('./contractService');
+const { startListening, faucet, syncCamping } = require('./contractService');
 const corsOptions = {
-    origin: `http://localhost:14460`,
+    origin: `http://localhost:7636`,
     optionsSuccessStatus: 200
 }
 
@@ -25,7 +25,7 @@ if (cluster.isPrimary) {
         cluster.fork();
     });
 
-    startListening();
+    // startListening();
 
 } else {
     const app = express();
@@ -46,9 +46,11 @@ if (cluster.isPrimary) {
         
         res.send(Object.values(campaign).map(c => {
             const campaign = JSON.parse(c);
+            console.log(campaign)
+            if(!isNaN(c)) return c;
             campaign.metadata = JSON.parse(campaign.metadata);
             return campaign;
-        }));
+        }).filter(c => c.campaignId !== undefined && c.campaignId !== null));
     })
 
     app.post('/faucet', jsonParser, async (req, res) => {
@@ -60,6 +62,15 @@ if (cluster.isPrimary) {
             res.status(500).send({
                 reason: err.message
             });
+        }
+    })
+
+    app.get('/syncCampaign', async (req, res) => {
+        try{
+            await syncCamping();
+            res.send('ok');
+        }catch(err){
+            res.status(500).send(err.message);
         }
     })
 
