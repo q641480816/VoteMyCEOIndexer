@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const { flush, hsetAdd, hsetGet, hgetAll } = require('./redisClient');
 const properties = require('./properties.json');
-const numCPUs = Math.ceil(os.cpus().length / 2);
+// const numCPUs = Math.ceil(os.cpus().length / 2);
+const numCPUs = 2;
 const { startListening, faucet, syncCamping } = require('./contractService');
 const corsOptions = {
     origin: `http://localhost:7636`,
@@ -29,7 +30,7 @@ if (cluster.isPrimary) {
 
 } else {
     const app = express();
-    app.use(cors(corsOptions));
+    // app.use(cors(corsOptions));
     const jsonParser = bodyParser.json();
 
     app.get('/getFaucetHistory', async (req, res) => {
