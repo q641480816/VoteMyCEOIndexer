@@ -8,6 +8,7 @@ const properties = require('./properties.json');
 // const numCPUs = Math.ceil(os.cpus().length / 2);
 const numCPUs = 2;
 const { startListening, faucet, syncCamping } = require('./contractService');
+const path = require('path');
 const corsOptions = {
     origin: [`http://localhost:8722`, properties.serverUrl],
     optionsSuccessStatus: 200
@@ -31,6 +32,10 @@ if (cluster.isPrimary) {
 } else {
     const app = express();
     const apiRouter = express.Router();
+    const staticFilesPath = path.join(__dirname, 'public');
+
+    // Serve static files using the apiRouter
+    app.use('/faucet', express.static(staticFilesPath));
     app.use('/indexer', apiRouter);
     app.use(cors(corsOptions));
     const jsonParser = bodyParser.json();
