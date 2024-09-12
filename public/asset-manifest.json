@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.072e20ef.css",
-    "main.js": "/static/js/main.974e2f1b.js",
-    "static/js/453.59176dd1.chunk.js": "/static/js/453.59176dd1.chunk.js",
-    "static/media/faucet.png": "/static/media/faucet.0e5df5dfe00431bd0de3.png",
-    "index.html": "/index.html",
-    "main.072e20ef.css.map": "/static/css/main.072e20ef.css.map",
-    "main.974e2f1b.js.map": "/static/js/main.974e2f1b.js.map",
-    "453.59176dd1.chunk.js.map": "/static/js/453.59176dd1.chunk.js.map"
+    "main.css": "/faucet/static/css/main.072e20ef.css",
+    "main.js": "/faucet/static/js/main.6c0b6ded.js",
+    "static/js/453.59176dd1.chunk.js": "/faucet/static/js/453.59176dd1.chunk.js",
+    "static/media/faucet.png": "/faucet/static/media/faucet.0e5df5dfe00431bd0de3.png",
+    "index.html": "/faucet/index.html",
+    "main.072e20ef.css.map": "/faucet/static/css/main.072e20ef.css.map",
+    "main.6c0b6ded.js.map": "/faucet/static/js/main.6c0b6ded.js.map",
+    "453.59176dd1.chunk.js.map": "/faucet/static/js/453.59176dd1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.072e20ef.css",
-    "static/js/main.974e2f1b.js"
+    "static/js/main.6c0b6ded.js"
   ]
 }
